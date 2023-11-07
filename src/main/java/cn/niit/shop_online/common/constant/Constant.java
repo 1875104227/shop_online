@@ -1,0 +1,15 @@
+package cn.niit.shop_online.common.constant;
+
+/**
+ * @author 86187
+ * @Date 2023/11/7
+ */
+public interface Constant {
+//    创建时间
+    String CREATE_TIME = "createTime" ;
+//    更新时间
+    String UPDATE_TIME = "updateTime" ;
+//    逻辑删除
+    String DELETED_FLAG = "deleteFlag" ;
+
+}
