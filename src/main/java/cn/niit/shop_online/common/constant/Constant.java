@@ -10,6 +10,6 @@ public interface Constant {
 //    更新时间
     String UPDATE_TIME = "updateTime" ;
 //    逻辑删除
-    String DELETED_FLAG = "deleteFlag" ;
+    String DELETE_FLAG = "deleteFlag" ;
 
 }
