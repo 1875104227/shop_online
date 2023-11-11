@@ -5,6 +5,7 @@ import cn.niit.shop_online.entity.User;
 import cn.niit.shop_online.query.UserLoginQuery;
 import cn.niit.shop_online.service.UserService;
 import cn.niit.shop_online.vo.LoginResultVO;
+import cn.niit.shop_online.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +42,14 @@ public class UserController {
     private Result<User> getUserInfo(HttpServletRequest request) {
         Integer userId = getUserId(request);
         User userInfo = userService.getUserInfo(userId);
+        return Result.ok(userInfo);
+    }
+    @Operation(summary = "修改用户信息")
+    @PutMapping("/profile")
+    private Result<UserVO> editUserInfo(HttpServletRequest request, @RequestBody @Validated UserVO userVO) {
+        Integer userId = getUserId(request);
+        userVO.setId(userId);
+        UserVO userInfo = userService.editUserInfo(userVO);
         return Result.ok(userInfo);
     }
 }

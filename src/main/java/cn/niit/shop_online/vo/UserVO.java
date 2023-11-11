@@ -1,5 +1,7 @@
 package cn.niit.shop_online.vo;
 
+import cn.niit.shop_online.common.utils.DateUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -15,7 +17,7 @@ public class UserVO {
     @Schema(description = "登录token")
     private String token;
     @Schema(description = "主键id")
-    @NotNull(message = "用户Id 不能为空")
+//    @NotNull(message = "用户Id 不能为空")
     private Integer Id;
     @Schema(description = "用户手机号")
     private String mobile;
@@ -28,7 +30,7 @@ public class UserVO {
     @Schema(description = "性别")
     private Integer gender;
     @Schema(description = "生日")
-//    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     private Timestamp birthday;
     @Schema(description = "职业")
     private String profession;

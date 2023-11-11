@@ -11,6 +11,7 @@ import cn.niit.shop_online.service.RedisService;
 import cn.niit.shop_online.service.UserService;
 import cn.niit.shop_online.vo.LoginResultVO;
 import cn.niit.shop_online.vo.UserTokenVO;
+import cn.niit.shop_online.vo.UserVO;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -80,4 +81,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         return user;
     }
+
+    @Override
+    public UserVO editUserInfo(UserVO userVO) {
+        User user = baseMapper.selectById( userVO. getId());
+        if (user == null){
+            throw new ServerException("用户不存在");
+        }
+        User userConvert = UserConvert.INSTANCE.convert(userVO);
+        updateById(userConvert);
+        return userVO;
+
+    }
+
 }
