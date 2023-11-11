@@ -2,6 +2,7 @@ package cn.niit.shop_online.service.impl;
 
 import cn.niit.shop_online.common.exception.ServerException;
 import cn.niit.shop_online.convert.AddressConvert;
+import cn.niit.shop_online.convert.GoodsConvert;
 import cn.niit.shop_online.entity.UserShippingAddress;
 import cn.niit.shop_online.enums.AddressDefaultEnum;
 import cn.niit.shop_online.mapper.UserShippingAddressMapper;
@@ -24,6 +25,7 @@ import java.util.List;
 @Service
 public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddressMapper, UserShippingAddress> implements UserShippingAddressService {
 
+//    添加收获地址
     @Override
     public Integer saveShippingAddress(AddressVO addressVO) {
         UserShippingAddress convert = AddressConvert.INSTANCE.convert(addressVO);
@@ -38,7 +40,7 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
         save(convert);
         return convert.getId();
     }
-
+//     修改收货地址
     @Override
     public Integer editShippingAddress(AddressVO addressVO) {
         UserShippingAddress userShippingAddress = baseMapper.selectById(addressVO.getId());
@@ -61,9 +63,27 @@ public class UserShippingAddressServiceImpl extends ServiceImpl<UserShippingAddr
         return address.getId();
     }
 
+//    收获地址列表
     @Override
     public List<AddressVO> getList(Integer userId) {
+        LambdaQueryWrapper<UserShippingAddress> queryWrapper=new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserShippingAddress::getUserId,userId).orderByDesc(UserShippingAddress::getIsDefault);
+        List<UserShippingAddress> list=baseMapper.selectList(new LambdaQueryWrapper<UserShippingAddress>().eq(
+                UserShippingAddress::getUserId,userId
+        ));
+        List<AddressVO> addressVOList=AddressConvert.INSTANCE.convertToAddressVOList(list);
+        return addressVOList;
+    }
 
+    @Override
+    public AddressVO getAddressDetail(Integer id) {
+        UserShippingAddress address = baseMapper.selectById(id);
+        if(address==null){
+            throw new ServerException("商品不存在");
+        }
+        AddressVO addressVO = AddressConvert.INSTANCE.convertToAddressVO(address);
+      
         return null;
     }
+//
 }
