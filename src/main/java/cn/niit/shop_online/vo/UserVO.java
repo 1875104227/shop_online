@@ -3,7 +3,6 @@ package cn.niit.shop_online.vo;
 import cn.niit.shop_online.common.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.sql.Timestamp;

@@ -10,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+
 /**
  * @author ycshang
  */
@@ -31,12 +32,13 @@ public interface UserConvert {
 
     class MapStruct {
         public static Timestamp transferTime(LocalDateTime value) {
+
             return Timestamp.valueOf(value);
         }
 
 
         public static LocalDateTime transferTimeStamp(Timestamp time){
-            return  time.toLocalDateTime();
+            return time.toLocalDateTime();
         }
     }
 }

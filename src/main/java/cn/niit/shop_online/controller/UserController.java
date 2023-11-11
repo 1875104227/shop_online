@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import static cn.niit.shop_online.common.utils.ObtainUserIdUtils.getUserId;
 
@@ -51,5 +52,13 @@ public class UserController {
         userVO.setId(userId);
         UserVO userInfo = userService.editUserInfo(userVO);
         return Result.ok(userInfo);
+    }
+
+    @Operation(summary = "修改用户头像")
+    @PostMapping("/profile/avatar")
+    private Result<String> editUserAvatar(HttpServletRequest request, MultipartFile file) {
+        Integer userId = getUserId(request);
+        String uploadFileName = userService.editUserAvatar(userId, file);
+        return Result.ok(uploadFileName);
     }
 }
