@@ -49,7 +49,7 @@ public class UserShoppingAddressController {
         return Result.ok(addressId);
     }
 
-    @Operation(summary = "获取收获地址")
+    @Operation(summary = "获取收货地址")
     @GetMapping("address")
     public Result<List<AddressVO>> getAddressList(HttpServletRequest request){
         Integer userId = getUserId(request);

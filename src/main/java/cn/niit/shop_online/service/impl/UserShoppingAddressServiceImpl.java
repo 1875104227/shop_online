@@ -44,7 +44,7 @@ public class UserShoppingAddressServiceImpl extends ServiceImpl<UserShoppingAddr
     public Integer editShippingAddress(AddressVO addressVO) {
         UserShoppingAddress userShoppingAddress = baseMapper.selectById(addressVO.getId());
         if(userShoppingAddress ==null){
-            throw  new ServerException("地址不存在");
+            throw new ServerException("地址不存在");
         }
         if(addressVO.getIsDefault()==AddressDefaultEnum.DEFAULT_ADDRESS.getValue()){
 //            查询该用户是否已经存在默认地址
@@ -52,6 +52,7 @@ public class UserShoppingAddressServiceImpl extends ServiceImpl<UserShoppingAddr
                     LambdaQueryWrapper<UserShoppingAddress>().eq(UserShoppingAddress::getUserId,
                     addressVO.getUserId()).eq(UserShoppingAddress::getIsDefault,
                     AddressDefaultEnum.DEFAULT_ADDRESS.getValue()));
+            System.out.println("--------"+address);
             if(address!=null){
                 address.setIsDefault(AddressDefaultEnum.NOT_DEFAULT_ADDRESS.getValue());
                 updateById(address);
@@ -65,6 +66,7 @@ public class UserShoppingAddressServiceImpl extends ServiceImpl<UserShoppingAddr
 //    收获地址列表
     @Override
     public List<AddressVO> getShoppingAddressList(Integer userId) {
+//        创建 LambdaQueryWrapper 对象 queryWrapper
         LambdaQueryWrapper<UserShoppingAddress> queryWrapper=new LambdaQueryWrapper<>();
         List<UserShoppingAddress> list=baseMapper.selectList(queryWrapper.eq(
                 UserShoppingAddress::getUserId,userId).orderByDesc(UserShoppingAddress::getIsDefault));
@@ -92,16 +94,7 @@ public class UserShoppingAddressServiceImpl extends ServiceImpl<UserShoppingAddr
         if(address==null){
             throw new ServerException("地址不存在");
         }
-        UserShoppingAddress userShoppingAddress =baseMapper.selectOne(new LambdaQueryWrapper<UserShoppingAddress>().eq(
-                UserShoppingAddress::getId,address.getId()
-        ));
-        if(userShoppingAddress.getIsDefault()==AddressDefaultEnum.DEFAULT_ADDRESS.getValue()){
-            throw new ServerException("默认地址不能删除");
-        }else {
-            userShoppingAddress.setDeleteFlag(AddressDefaultEnum.DEFAULT_ADDRESS.getValue());
-            updateById(userShoppingAddress);
-        }
-
+        baseMapper.deleteById(id);
     }
 
 
