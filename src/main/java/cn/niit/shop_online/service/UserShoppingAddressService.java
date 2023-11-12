@@ -1,6 +1,6 @@
 package cn.niit.shop_online.service;
 
-import cn.niit.shop_online.entity.UserShippingAddress;
+import cn.niit.shop_online.entity.UserShoppingAddress;
 import cn.niit.shop_online.vo.AddressVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -14,10 +14,10 @@ import java.util.List;
  * @author yaaii
  * @since 2023-11-07
  */
-public interface UserShippingAddressService extends IService<UserShippingAddress> {
+public interface UserShoppingAddressService extends IService<UserShoppingAddress> {
     Integer saveShippingAddress(AddressVO addressVO);
     Integer editShippingAddress(AddressVO addressVO);
-    List<AddressVO> getList(Integer userId);
-
+    List<AddressVO> getShoppingAddressList(Integer userId);
     AddressVO getAddressDetail(Integer id);
+    void deleteShoppingAddress(Integer id);
 }

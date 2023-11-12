@@ -1,6 +1,6 @@
 package cn.niit.shop_online.convert;
 
-import cn.niit.shop_online.entity.UserShippingAddress;
+import cn.niit.shop_online.entity.UserShoppingAddress;
 import cn.niit.shop_online.vo.AddressVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -16,11 +16,11 @@ public interface AddressConvert {
     AddressConvert INSTANCE = Mappers.getMapper(AddressConvert.class);
 
 
-    UserShippingAddress convert(AddressVO addressVO);
+    UserShoppingAddress convert(AddressVO addressVO);
 
 
-    List<AddressVO> convertToAddressVOList(List<UserShippingAddress> addressList);
+    List<AddressVO> convertToAddressVOList(List<UserShoppingAddress> addressList);
 
 
-    AddressVO convertToAddressVO(UserShippingAddress userShippingAddress);
+    AddressVO convertToAddressVO(UserShoppingAddress userShoppingAddress);
 }

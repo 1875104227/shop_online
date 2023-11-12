@@ -2,7 +2,7 @@ package cn.niit.shop_online.controller;
 
 import cn.niit.shop_online.common.exception.ServerException;
 import cn.niit.shop_online.common.result.Result;
-import cn.niit.shop_online.service.UserShippingAddressService;
+import cn.niit.shop_online.service.UserShoppingAddressService;
 import cn.niit.shop_online.vo.AddressVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,15 +27,15 @@ import static cn.niit.shop_online.common.utils.ObtainUserIdUtils.getUserId;
 @RestController
 @RequestMapping("member")
 @AllArgsConstructor
-public class UserShippingAddressController {
-    private final UserShippingAddressService userShippingAddressService;
+public class UserShoppingAddressController {
+    private final UserShoppingAddressService userShoppingAddressService;
 
     @Operation(summary = "添加收货地址")
     @PostMapping("address")
     public Result<Integer> saveAddress(@RequestBody @Validated AddressVO addressVO, HttpServletRequest request) {
         Integer userId = getUserId(request);
         addressVO.setUserId(userId);
-        Integer addressId = userShippingAddressService.saveShippingAddress(addressVO);
+        Integer addressId = userShoppingAddressService.saveShippingAddress(addressVO);
         return Result.ok(addressId);
     }
     @Operation(summary = "修改收货地址")
@@ -45,7 +45,7 @@ public class UserShippingAddressController {
             throw new ServerException("请求参数不能为空");
         }
         addressVO.setUserId(getUserId(request));
-        Integer addressId = userShippingAddressService.editShippingAddress(addressVO);
+        Integer addressId = userShoppingAddressService.editShippingAddress(addressVO);
         return Result.ok(addressId);
     }
 
@@ -53,8 +53,21 @@ public class UserShippingAddressController {
     @GetMapping("address")
     public Result<List<AddressVO>> getAddressList(HttpServletRequest request){
         Integer userId = getUserId(request);
-        List<AddressVO> list=userShippingAddressService.getList(userId);
+        List<AddressVO> list= userShoppingAddressService.getShoppingAddressList(userId);
         return Result.ok(list);
     }
 
+    @Operation(summary = "收货地址详情")
+    @GetMapping("address/detail")
+    public Result<AddressVO> getAddressDetail(@RequestParam Integer id){
+        AddressVO addressDetail = userShoppingAddressService.getAddressDetail(id);
+        return Result.ok(addressDetail);
+    }
+
+    @Operation(summary = "删除收货地址")
+    @DeleteMapping("address")
+    public Result deleteAddress(@RequestParam Integer id) {
+        userShoppingAddressService.deleteShoppingAddress(id);
+        return Result.ok();
+    }
 }

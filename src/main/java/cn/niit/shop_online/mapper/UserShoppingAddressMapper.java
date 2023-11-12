@@ -1,6 +1,6 @@
 package cn.niit.shop_online.mapper;
 
-import cn.niit.shop_online.entity.UserShippingAddress;
+import cn.niit.shop_online.entity.UserShoppingAddress;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author yaaii
  * @since 2023-11-07
  */
-public interface UserShippingAddressMapper extends BaseMapper<UserShippingAddress> {
+public interface UserShoppingAddressMapper extends BaseMapper<UserShoppingAddress> {
 
 }

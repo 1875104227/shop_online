@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @TableName("t_user_shipping_address")
 @ApiModel(value = "UserShippingAddress对象", description = "")
-public class UserShippingAddress {
+public class UserShoppingAddress {
 
     @ApiModelProperty("主键id")
     @TableId(value = "id", type = IdType.AUTO)
