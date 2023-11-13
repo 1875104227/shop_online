@@ -63,38 +63,34 @@ public class UserShoppingAddressServiceImpl extends ServiceImpl<UserShoppingAddr
         return address.getId();
     }
 
-//    收获地址列表
+//    获取地址列表
     @Override
-    public List<AddressVO> getShoppingAddressList(Integer userId) {
-//        创建 LambdaQueryWrapper 对象 queryWrapper
-        LambdaQueryWrapper<UserShoppingAddress> queryWrapper=new LambdaQueryWrapper<>();
-        List<UserShoppingAddress> list=baseMapper.selectList(queryWrapper.eq(
-                UserShoppingAddress::getUserId,userId).orderByDesc(UserShoppingAddress::getIsDefault));
-        List<AddressVO> addressVOList=AddressConvert.INSTANCE.convertToAddressVOList(list);
-        return addressVOList;
+    public List<AddressVO> getList(Integer userId) {
+        LambdaQueryWrapper<UserShoppingAddress> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(UserShoppingAddress::getUserId, userId);
+//        根据是否为默认地址和创建时间倒序排列
+        wrapper.orderByDesc(UserShoppingAddress::getIsDefault);
+        wrapper.orderByDesc(UserShoppingAddress::getCreateTime);
+        List<UserShoppingAddress> list = baseMapper.selectList(wrapper);
+        List<AddressVO> results = AddressConvert.INSTANCE.convertToAddressVOList(list);
+        return results;
     }
-//  获取地址详情
+
+//    获取地址详情
     @Override
-    public AddressVO getAddressDetail(Integer id) {
-        UserShoppingAddress address = baseMapper.selectById(id);
-        if(address==null){
+    public AddressVO getAddressInfo(Integer id) {
+        UserShoppingAddress userShippingAddress = baseMapper.selectById(id);
+        if (userShippingAddress == null) {
             throw new ServerException("地址不存在");
         }
-        UserShoppingAddress userShoppingAddress = baseMapper.selectOne(new LambdaQueryWrapper<UserShoppingAddress>().eq(
-                UserShoppingAddress::getId, address.getId()));
-        AddressVO addressVO = AddressConvert.INSTANCE.convertToAddressVO(userShoppingAddress);
-
+        AddressVO addressVO = AddressConvert.INSTANCE.convertToAddressVO(userShippingAddress);
         return addressVO;
     }
+
     //  删除收货地址
     @Override
-    public void deleteShoppingAddress(Integer id) {
-//        逻辑删除，地址的delete_flag 为 1
-        UserShoppingAddress address = baseMapper.selectById(id);
-        if(address==null){
-            throw new ServerException("地址不存在");
-        }
-        baseMapper.deleteById(id);
+    public void removeShippingAddress(Integer id) {
+        removeById(id);
     }
 
 

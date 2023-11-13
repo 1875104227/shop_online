@@ -53,21 +53,27 @@ public class UserShoppingAddressController {
     @GetMapping("address")
     public Result<List<AddressVO>> getAddressList(HttpServletRequest request){
         Integer userId = getUserId(request);
-        List<AddressVO> list= userShoppingAddressService.getShoppingAddressList(userId);
+        List<AddressVO> list= userShoppingAddressService.getList(userId);
         return Result.ok(list);
     }
 
     @Operation(summary = "收货地址详情")
     @GetMapping("address/detail")
-    public Result<AddressVO> getAddressDetail(@RequestParam Integer id){
-        AddressVO addressDetail = userShoppingAddressService.getAddressDetail(id);
-        return Result.ok(addressDetail);
+    public Result<AddressVO> getAddressDetail(@RequestParam Integer id, HttpServletRequest request) {
+        if (id == null) {
+            throw new ServerException("请求参数不能为空");
+        }
+        AddressVO addressInfo = userShoppingAddressService.getAddressInfo(id);
+        return Result.ok(addressInfo);
     }
 
     @Operation(summary = "删除收货地址")
     @DeleteMapping("address")
-    public Result deleteAddress(@RequestParam Integer id) {
-        userShoppingAddressService.deleteShoppingAddress(id);
+    public Result removeAddress(@RequestParam Integer id, HttpServletRequest request) {
+        if (id == null) {
+            throw new ServerException("请求参数不能为空");
+        }
+        userShoppingAddressService.removeShippingAddress(id);
         return Result.ok();
     }
 }
