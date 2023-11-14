@@ -1,6 +1,8 @@
 package cn.niit.shop_online.service;
 
 import cn.niit.shop_online.entity.UserShoppingCart;
+import cn.niit.shop_online.query.CartQuery;
+import cn.niit.shop_online.vo.CartGoodsVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -12,5 +14,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-11-07
  */
 public interface UserShoppingCartService extends IService<UserShoppingCart> {
-
+//    添加购物车
+    CartGoodsVO addShopCart(CartQuery query);
 }
