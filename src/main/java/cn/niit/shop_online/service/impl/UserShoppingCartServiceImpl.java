@@ -9,11 +9,13 @@ import cn.niit.shop_online.query.CartQuery;
 import cn.niit.shop_online.query.EditCartQuery;
 import cn.niit.shop_online.service.UserShoppingCartService;
 import cn.niit.shop_online.vo.CartGoodsVO;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -94,6 +96,21 @@ public class UserShoppingCartServiceImpl extends ServiceImpl<UserShoppingCartMap
         goodsVO.setPicture(goods.getCover());
         goodsVO.setDiscount(goods.getDiscount());
         return goodsVO;
+    }
+
+    @Override
+    public void removeCartGoods(Integer userId, List<Integer> ids) {
+//        查询购物车列表
+        List<UserShoppingCart> cartList=baseMapper.selectList(new LambdaQueryWrapper<UserShoppingCart>()
+                .eq(UserShoppingCart::getUserId,userId));
+        if(cartList.size()==0){
+            return;
+        }
+//        与需要删除的购物车取交集
+        List<UserShoppingCart> deleteCartList=cartList.stream().filter(item->
+                ids.contains(item.getId())).collect(Collectors.toList());
+//        删除购物车信息
+        removeBatchByIds(deleteCartList);
     }
 
 
