@@ -2,6 +2,7 @@ package cn.niit.shop_online.controller;
 
 import cn.niit.shop_online.common.result.Result;
 import cn.niit.shop_online.query.CartQuery;
+import cn.niit.shop_online.query.EditCartQuery;
 import cn.niit.shop_online.service.UserShoppingCartService;
 import cn.niit.shop_online.vo.CartGoodsVO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +44,13 @@ public class UserShoppingCartController {
         Integer userId = getUserId(request);
         List<CartGoodsVO> list = userShoppingCartService.shopCartList(userId);
         return Result.ok(list);
+    }
+    @Operation(summary = "修改购物车单品")
+    @PutMapping("edit")
+    public Result<CartGoodsVO> editShopCart(@RequestBody @Validated EditCartQuery query) {
+        CartGoodsVO goodsVO = userShoppingCartService.editCart(query);
+        return Result.ok(goodsVO);
+
     }
 
 }

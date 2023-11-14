@@ -2,6 +2,7 @@ package cn.niit.shop_online.service;
 
 import cn.niit.shop_online.entity.UserShoppingCart;
 import cn.niit.shop_online.query.CartQuery;
+import cn.niit.shop_online.query.EditCartQuery;
 import cn.niit.shop_online.vo.CartGoodsVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
@@ -21,5 +22,7 @@ public interface UserShoppingCartService extends IService<UserShoppingCart> {
     CartGoodsVO addShopCart(CartQuery query);
 //    购物车列表
     List<CartGoodsVO> shopCartList(Integer userId);
+//    修改购物车
+    CartGoodsVO editCart(EditCartQuery query);
 
 }
