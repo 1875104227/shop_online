@@ -1,5 +1,6 @@
 package cn.niit.shop_online.entity;
 
+import cn.niit.shop_online.common.utils.DateUtils;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -9,6 +10,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -82,6 +85,7 @@ public class User {
 
     @ApiModelProperty("生日")
     @TableField("birthday")
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     private LocalDateTime birthday;
 
     @ApiModelProperty("逻辑删除(0-未删除，1-已删除)")

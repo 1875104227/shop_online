@@ -36,7 +36,6 @@ public interface UserConvert {
             return Timestamp.valueOf(value);
         }
 
-
         public static LocalDateTime transferTimeStamp(Timestamp time){
             return time.toLocalDateTime();
         }
