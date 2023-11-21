@@ -44,8 +44,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public List<CategoryVO> getCategoryList() {
         List<CategoryVO> list =new ArrayList<>();
         LambdaQueryWrapper<Category> wrapper =new LambdaQueryWrapper<>();
-        wrapper.eq(Category::getIsRecommend,CategoryRecommendEnum.ALL_RECOMMEND.getValue()).or().eq(Category::getIsRecommend,
-                CategoryRecommendEnum.CATEGORY_HOME_RECOMMEND.getValue());
+        wrapper.eq(Category::getIsRecommend,CategoryRecommendEnum.ALL_RECOMMEND.getValue());
         List<Category> categories=baseMapper.selectList(wrapper);
 //
         LambdaQueryWrapper<Goods> queryWrapper= new LambdaQueryWrapper<>();
