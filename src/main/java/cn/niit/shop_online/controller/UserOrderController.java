@@ -8,6 +8,7 @@ import cn.niit.shop_online.query.OrderPreQuery;
 import cn.niit.shop_online.query.OrderQuery;
 import cn.niit.shop_online.service.UserOrderService;
 import cn.niit.shop_online.vo.OrderDetailVO;
+import cn.niit.shop_online.vo.OrderLogisticVO;
 import cn.niit.shop_online.vo.SubmitOrderVO;
 import cn.niit.shop_online.vo.UserOrderVO;
 import com.alibaba.fastjson2.JSONObject;
@@ -134,4 +135,15 @@ public class UserOrderController {
         OrderDetailVO orderDetailVO = userOrderService.receiptOrder(id);
         return Result.ok(orderDetailVO);
     }
+
+    @Operation(summary = "获取物流信息")
+    @GetMapping("logistics")
+    public Result<OrderLogisticVO> getOrderLogistics(@RequestParam Integer id) {
+        if (id == null) {
+            throw new ServerException("订单不存在");
+        }
+        OrderLogisticVO orderLogistics = userOrderService.getOrderLogistics(id);
+        return Result.ok(orderLogistics);
+    }
+
 }
