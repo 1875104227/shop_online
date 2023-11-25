@@ -8,10 +8,8 @@ import org.mapstruct.factory.Mappers;
  * @author 86187
  * @Date 2023/11/25
  */
-public class UserOrderDetailConvent {
-    UserOrderDetailConvent INSTANCE= Mappers.getMapper(UserOrderDetailConvent.class);
+public interface UserOrderDetailConvert {
+    UserOrderDetailConvert INSTANCE= Mappers.getMapper(UserOrderDetailConvert.class);
 
-    OrderDetailVO convertToOrderDetailVO(UserOrder userOrder) {
-        return null;
-    }
+    OrderDetailVO convertToOrderDetailVO(UserOrder userOrder);
 }

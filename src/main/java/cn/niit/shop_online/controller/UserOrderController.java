@@ -4,6 +4,7 @@ import cn.niit.shop_online.common.exception.ServerException;
 import cn.niit.shop_online.common.result.Result;
 import cn.niit.shop_online.service.UserOrderService;
 import cn.niit.shop_online.vo.OrderDetailVO;
+import cn.niit.shop_online.vo.SubmitOrderVO;
 import cn.niit.shop_online.vo.UserOrderVO;
 import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,6 +49,14 @@ public class UserOrderController {
         }
         OrderDetailVO orderDetail = userOrderService.getOrderDetail(id);
         return Result.ok(orderDetail);
+    }
+
+    @Operation(summary = "填写订单 - 获取预付订单")
+    @GetMapping("pre")
+    public Result<SubmitOrderVO> getPreOrderDetail(HttpServletRequest request) {
+        Integer userId = getUserId(request);
+        SubmitOrderVO preOrderDetail = userOrderService.getPreOrderDetail(userId);
+        return Result.ok(preOrderDetail);
     }
 
 
