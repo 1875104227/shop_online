@@ -1,8 +1,10 @@
 package cn.niit.shop_online.controller;
 
 import cn.niit.shop_online.common.exception.ServerException;
+import cn.niit.shop_online.common.result.PageResult;
 import cn.niit.shop_online.common.result.Result;
 import cn.niit.shop_online.query.OrderPreQuery;
+import cn.niit.shop_online.query.OrderQuery;
 import cn.niit.shop_online.service.UserOrderService;
 import cn.niit.shop_online.vo.OrderDetailVO;
 import cn.niit.shop_online.vo.SubmitOrderVO;
@@ -77,5 +79,12 @@ public class UserOrderController {
         SubmitOrderVO repurchaseOrderDetail = userOrderService.getRepurchaseOrderDetail(id);
         return Result.ok(repurchaseOrderDetail);
     }
-
+    @Operation(summary = "订单列表")
+    @PostMapping("page")
+    public Result<PageResult<OrderDetailVO>> getOrderList(@RequestBody @Validated OrderQuery query, HttpServletRequest request) {
+        Integer userId = getUserId(request);
+        query.setUserId(userId);
+        PageResult<OrderDetailVO> orderList = userOrderService.getOrderList(query);
+        return Result.ok(orderList);
+    }
 }
