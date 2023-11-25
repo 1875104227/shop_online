@@ -1,6 +1,7 @@
 package cn.niit.shop_online.service;
 
 import cn.niit.shop_online.entity.UserOrder;
+import cn.niit.shop_online.query.OrderPreQuery;
 import cn.niit.shop_online.vo.OrderDetailVO;
 import cn.niit.shop_online.vo.SubmitOrderVO;
 import cn.niit.shop_online.vo.UserAddressVO;
@@ -27,4 +28,10 @@ public interface UserOrderService extends IService<UserOrder> {
     SubmitOrderVO getPreOrderDetail(Integer userId);
 
     List<UserAddressVO> getAddressListByUserId(Integer userId,Integer addressId);
+
+//    填写订单-获取立即购买订单
+    SubmitOrderVO getPreNowOrderDetail(OrderPreQuery query);
+
+//    填写订单-获取再次购买订单
+    SubmitOrderVO getRepurchaseOrderDetail(Integer id);
 }

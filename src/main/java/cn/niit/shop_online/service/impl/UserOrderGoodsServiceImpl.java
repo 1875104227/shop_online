@@ -10,11 +10,11 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
- * @author yaaii
- * @since 2023-11-07
+ * @author
+ * @since 2023-11-25
  */
 @Service
 public class UserOrderGoodsServiceImpl extends ServiceImpl<UserOrderGoodsMapper, UserOrderGoods> implements UserOrderGoodsService {

@@ -1,5 +1,6 @@
 package cn.niit.shop_online.vo;
 
+import cn.niit.shop_online.query.OrderGoodsQuery;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.List;
 @Data
 public class UserOrderVO {
     @Schema(description = "商品集合")
-    List<com.soft2242.shop.query.OrderGoodsQuery> goods;
+    List<OrderGoodsQuery> goods;
     @Schema(description = "用户id")
     private Integer userId;
     @Schema(description = "收货地址id")

@@ -7,10 +7,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-/**
- * @author 86187
- * @Date 2023/11/25
- */
 @Mapper
 public interface UserAddressConvert {
 
