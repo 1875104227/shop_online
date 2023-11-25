@@ -1,16 +1,20 @@
 package cn.niit.shop_online.service.impl;
 
 import cn.niit.shop_online.common.exception.ServerException;
+import cn.niit.shop_online.convert.UserOrderDetailConvent;
 import cn.niit.shop_online.entity.Goods;
 import cn.niit.shop_online.entity.UserOrder;
 import cn.niit.shop_online.entity.UserOrderGoods;
+import cn.niit.shop_online.entity.UserShoppingAddress;
 import cn.niit.shop_online.enums.OrderStatusEnum;
 import cn.niit.shop_online.mapper.GoodsMapper;
 import cn.niit.shop_online.mapper.UserOrderMapper;
+import cn.niit.shop_online.mapper.UserShoppingAddressMapper;
 import cn.niit.shop_online.service.UserOrderGoodsService;
 import cn.niit.shop_online.service.UserOrderService;
 import cn.niit.shop_online.vo.OrderDetailVO;
 import cn.niit.shop_online.vo.UserOrderVO;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -18,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +48,10 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
     private UserOrderGoodsService userOrderGoodsService;
     private ScheduledExecutorService executorService= Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> cancelTask;
+
+    public UserOrderServiceImpl() {
+    }
+
     @Async
     public void scheduOrderCancel(UserOrder userOrder){
         cancelTask=executorService.schedule(()->{
@@ -120,6 +130,32 @@ public class UserOrderServiceImpl extends ServiceImpl<UserOrderMapper, UserOrder
 
     @Override
     public OrderDetailVO getOrderDetail(Integer id) {
-        return null;
+//        订单信息
+        UserOrder userOrder=baseMapper.selectById(id);
+        if(userOrder==null){
+            throw new ServerException("订单信息不存在");
+        }
+        OrderDetailVO orderDetailVO= UserOrderDetailConvent.INSTANCE.convertToOrderDetailVO(userOrder);
+        orderDetailVO.setTotalMoney(userOrder.getTotalPrice());
+//        收货信息
+        UserShoppingAddress userShoppingAddress=userShoppingAddressMapper.selectById(userOrder.getAddressId());
+        if(userShoppingAddress==null){
+            throw new ServerException("收货地址信息不存在");
+        }
+        orderDetailVO.setReceiverContact(userShoppingAddress.getReceiver());
+        orderDetailVO.setReceiverMobile(userShoppingAddress.getContact());
+        orderDetailVO.setReceiverAddress(userShoppingAddress.getAddress());
+//        商品集合
+        List<UserOrderGoods> list=userOrderGoodsMapper.selectList(new
+                LambdaQueryWrapper<UserOrderGoods>().eq(UserOrderGoods::getOrderId,id));
+        orderDetailVO.setSkus(list);
+//        订单截至订单创建30分钟后
+        orderDetailVO.setPayLatestTime(userOrder.getCreateTime().plusMinutes(30));
+        if(orderDetailVO.getPayLatestTime().isAfter(LocalDateTime.now())){
+            Duration duration=Duration.between(LocalDateTime.now(),orderDetailVO.getEndTime());
+//            倒计时秒数
+            orderDetailVO.setCountdown(duration.toMillisPart());
+        }
+        return orderDetailVO;
     }
 }
