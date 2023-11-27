@@ -139,10 +139,23 @@
     </dependencies>
 
     <build>
+        <finalName>shop-client-api</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>cn.niit.shop_online.ShopOnlineApplication</mainClass>
+                    <!--                    <skip>true</skip>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -16,7 +16,12 @@ import java.util.List;
  * @since 2023-11-07
  */
 public interface GoodsMapper extends BaseMapper<Goods> {
-//    根据订单id 查询商品信息列表
+    /**
+     * 根据订单id 查询商品信息列表
+     *
+     * @param id
+     * @return
+     */
     List<UserOrderGoodsVO> getGoodsListByOrderId(@Param("id") Integer id);
 
 }
